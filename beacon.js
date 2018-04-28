@@ -1,29 +1,50 @@
-const R = require('ramda');
-const { temperature, humidity, pressure} = require('./sensors');
+
+import {
+  slice,
+  path,
+  compose,
+  allPass,
+  equals,
+  pick,
+  ap,
+  map,
+  objOf,
+  of,
+  mergeAll,
+  tap,
+  zipObj
+} from 'ramda';
+import { temperature, humidity, pressure } from './sensors';
 
 const MANUFACTURER_ID = '9904';
 
 // beacon
-const manufacturerId = R.slice(0, 4);
-const stripManufacturerId = R.slice(4, Infinity);
-const manufacturerData = R.path(['advertisement', 'manufacturerData']);
-const manufacturerDataAsHex = R.compose(manufacturerData => manufacturerData.toString('hex'), manufacturerData);
-const isBeacon = R.allPass([
-    manufacturerData,
-    R.compose(R.equals(MANUFACTURER_ID), manufacturerId, manufacturerDataAsHex)
-]);
-
-const beaconObject = R.pick(['uuid']);
-const sensorObject = R.compose(
-    R.mergeAll,
-    R.ap(R.map(([ key, transformation ]) => R.compose(R.objOf(key), transformation), [
-        ['temperature', temperature ],
-        ['humidity', humidity ],
-        ['pressure', pressure ]
-    ])),
-    R.of,
-    stripManufacturerId,
-    manufacturerDataAsHex
+const stripManufacturerId = slice(4, Infinity);
+const manufacturerData = path(['advertisement', 'manufacturerData']);
+const manufacturerDataAsHex = compose(
+  manufacturerData => manufacturerData.toString('hex'),
+  manufacturerData
 );
 
-module.exports = { isBeacon, beaconObject, sensorObject };
+const beaconObject = pick(['uuid']);
+const sensorObject = compose(
+  compose(
+    zipObj(['temperature', 'humidity', 'pressure']),
+    ap([temperature, humidity, pressure]),
+  ),
+  of,
+  stripManufacturerId,
+  manufacturerDataAsHex
+);
+
+const manufacturerId = slice(0, 4);
+const isBeacon = allPass([
+  manufacturerData,
+  compose(
+    equals(MANUFACTURER_ID),
+    manufacturerId,
+    manufacturerDataAsHex
+  )
+]);
+
+export { isBeacon, beaconObject, sensorObject };

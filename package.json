@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "babel-node index.js --presets env",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -11,8 +12,12 @@
   "license": "ISC",
   "dependencies": {
     "influx": "^5.0.7",
-    "noble": "^1.8.1",
+    "noble": "^1.9.1",
     "ramda": "^0.24.1",
-    "rxjs": "^5.4.2"
+    "rxjs": "^5.5.10"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1"
   }
 }
