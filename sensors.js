@@ -13,44 +13,33 @@ import {
 // utils
 const divideBy = flip(divide);
 const hexToInt = hex => parseInt(hex, 16);
-const value = sliceFn => compose(
+const sliceFromHexToInt = (a, b) => compose(
   hexToInt,
-  sliceFn
+  slice(a, b)
 );
 
 // humidity
-const humidityString = slice(2, 4);
-const humidityScale = divideBy(2);
 const humidity = compose(
-  humidityScale,
-  value(humidityString)
+  divideBy(2),
+  sliceFromHexToInt(2, 4)
 );
 
 // temperature
-const temperatureString = slice(4, 6);
-const temperatureInteger = value(temperatureString);
-const temperatureFractionString = slice(6, 8);
-const decimals = divideBy(100);
+const temperatureInteger = sliceFromHexToInt(4, 6);
 const temperatureFraction = compose(
-  decimals,
-  value(temperatureFractionString)
+  divideBy(100),
+  sliceFromHexToInt(6, 8)
 );
-
 const temperature = compose(
   sum,
-  ap([
-    temperatureInteger,
-    temperatureFraction
-  ]),
+  ap([ temperatureInteger, temperatureFraction ]),
   of
 );
 
 // pressure
-const pressureString = slice(8, 12);
-const pressureFormat = add(50000);
 const pressure = compose(
-  pressureFormat,
-  value(pressureString)
+  add(50000),
+  sliceFromHexToInt(8, 12)
 );
 
 export {
