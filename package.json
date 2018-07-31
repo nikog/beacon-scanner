@@ -15,17 +15,18 @@
     "influx": "^5.0.7",
     "noble": "^1.9.1",
     "ramda": "^0.24.1",
-    "rxjs": "^5.5.10",
+    "rxjs": "^6.2.2",
     "xpc-connection": "sandeepmistry/node-xpc-connection#pull/26/head"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "eslint": "^4.19.1",
-    "eslint-config-airbnb": "^17.0.0",
     "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-import": "^2.13.0",
     "eslint-plugin-jsx-a11y": "^6.1.1",
+    "eslint-plugin-prettier": "^2.6.2",
     "eslint-plugin-react": "^7.10.0",
     "prettier": "^1.12.1",
     "prettier-eslint-cli": "^4.7.1"

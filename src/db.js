@@ -6,17 +6,15 @@ import { compose } from 'ramda';
 //     database: 'weather_db'
 // });
 
-const measurementPoint = ({
-  uuid, humidity, temperature, pressure,
-}) => ({
+const measurementPoint = ({ uuid, humidity, temperature, pressure }) => ({
   tags: {
-    beacon: uuid,
+    beacon: uuid
   },
   fields: {
     humidity,
     temperature,
-    airPressure: pressure,
-  },
+    airPressure: pressure
+  }
 });
 
 const writeMeasurement = point => influx.writeMeasurement('weather', [point]);

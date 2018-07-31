@@ -11,7 +11,11 @@ const humidity = compose(divideBy(2), sliceFromHexToInt(2, 4));
 // temperature
 const temperatureInteger = sliceFromHexToInt(4, 6);
 const temperatureFraction = compose(divideBy(100), sliceFromHexToInt(6, 8));
-const temperature = compose(sum, ap([temperatureInteger, temperatureFraction]), of);
+const temperature = compose(
+  sum,
+  ap([temperatureInteger, temperatureFraction]),
+  of
+);
 
 // pressure
 const pressure = compose(add(50000), sliceFromHexToInt(8, 12));
