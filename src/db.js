@@ -1,24 +1,33 @@
 import Influx from 'influx';
-import { compose } from 'ramda';
+import { compose, curry } from 'ramda';
 
-// const influx = new Influx.InfluxDB({
-//     host: 'localhost',
-//     database: 'weather_db'
-// });
+const DB_HOST = 'localhost';
+const DB_NAME = 'weather_db';
 
-const measurementPoint = ({ uuid, humidity, temperature, pressure }) => ({
+const influx = new Influx.InfluxDB({
+  host: DB_HOST,
+  database: DB_NAME
+});
+
+const createDatabase = curry(db => {
+  db
+    .getDatabaseNames()
+    .then(names => !names.includes(DB_NAME) && db.createDatabase(DB_NAME))
+    .catch(console.error);
+});
+
+const measurementPoint = ({ meta: { uuid }, data }) => ({
   tags: {
     beacon: uuid
   },
-  fields: {
-    humidity,
-    temperature,
-    airPressure: pressure
-  }
+  fields: data
 });
 
-const writeMeasurement = point => influx.writeMeasurement('weather', [point]);
+const writeMeasurement = curry((db, point) =>
+  db.writeMeasurement('weather', [point])
+);
 
-const store = compose(writeMeasurement, measurementPoint);
+const init = createDatabase(influx);
+const store = compose(writeMeasurement(influx), measurementPoint);
 
-export { store };
+export { init, store };
