@@ -15,8 +15,7 @@
     "influx": "^5.0.7",
     "noble": "^1.9.1",
     "ramda": "^0.24.1",
-    "rxjs": "^6.2.2",
-    "xpc-connection": "sandeepmistry/node-xpc-connection#pull/26/head"
+    "rxjs": "^6.2.2"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
