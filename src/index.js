@@ -1,9 +1,8 @@
-import { applySpec } from 'ramda';
 import { merge, fromEvent } from 'rxjs';
 import { map, mapTo, filter } from 'rxjs/operators';
 import noble from 'noble';
 
-import { isBeacon, metaData, sensorData } from './beacon';
+import { isBeacon, formatData } from './beacon';
 
 const startScanning = scanner => () => scanner.startScanning([], true);
 const stopScanning = scanner => () => scanner.stopScanning();
@@ -19,11 +18,6 @@ const logMeasurements = ({
     Air pressure ${pressure / 100} hPa
   `);
 };
-
-const formatData = applySpec({
-  meta: metaData,
-  data: sensorData
-});
 
 const log$ = merge(
   fromEvent(noble, 'scanStart').pipe(mapTo('Scan started')),

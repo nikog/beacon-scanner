@@ -4,11 +4,11 @@ import {
   slice,
   compose,
   equals,
-  pick,
-  curry,
-  reduce,
-  assoc,
-  keys
+  pick
+  // curry,
+  // reduce,
+  // assoc,
+  // keys
 } from 'ramda';
 import { temperature, humidity, pressure } from './sensors';
 
@@ -37,10 +37,15 @@ const sensorData = compose(
   manufacturerData
 );
 
+const formatData = applySpec({
+  meta: metaData,
+  data: sensorData
+});
+
 const isBeacon = compose(
   equals(MANUFACTURER_ID),
   slice(0, 4),
   manufacturerData
 );
 
-export { isBeacon, metaData, sensorData };
+export { isBeacon, formatData };
