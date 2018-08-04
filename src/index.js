@@ -1,11 +1,14 @@
 import { merge, fromEvent } from 'rxjs';
-import { map, mapTo, filter } from 'rxjs/operators';
+import { map, mapTo, filter, tap } from 'rxjs/operators';
 import noble from 'noble';
 
+import { init, store } from './db';
 import { isBeacon, formatData } from './beacon';
 
 const startScanning = scanner => () => scanner.startScanning([], true);
 const stopScanning = scanner => () => scanner.stopScanning();
+
+init();
 
 const logMeasurements = ({
   meta: { uuid },
@@ -36,7 +39,8 @@ poweredOff$.subscribe(stopScanning(noble));
 
 const discover$ = fromEvent(noble, 'discover').pipe(
   filter(isBeacon),
-  map(formatData)
+  map(formatData),
+  // tap(logMeasurements)
 );
 
-discover$.subscribe(logMeasurements);
+discover$.subscribe(store);

@@ -4,3 +4,10 @@ services:
     build: .
   influxdb:
     image: "influxdb"
+    ports:
+      - "8086:8086"
+    volumes:
+      - "influxdb:/var/lib/influxdb"
+
+volumes:
+  influxdb:
