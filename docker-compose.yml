@@ -2,6 +2,8 @@ version: "3"
 services:
   node:
     build: .
+    network_mode: "host"
+    privileged: true
   influxdb:
     image: "influxdb"
     ports:
