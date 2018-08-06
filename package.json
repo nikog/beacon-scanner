@@ -29,8 +29,5 @@
     "eslint-plugin-react": "^7.10.0",
     "prettier": "^1.12.1",
     "prettier-eslint-cli": "^4.7.1"
-  },
-  "resolutions": {
-    "xpc-connection": "sandeepmistry/node-xpc-connection#pull/26/head"
   }
 }

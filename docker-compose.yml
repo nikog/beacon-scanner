@@ -4,8 +4,12 @@ services:
     build: .
     network_mode: "host"
     privileged: true
+    restart: always
   influxdb:
     image: "influxdb"
+    restart: always
+    expose:
+      - "8086"
     ports:
       - "8086:8086"
     volumes:
