@@ -1,7 +1,7 @@
 import { InfluxDB } from 'influx';
 import { compose, curry } from 'ramda';
 
-const DB_HOST = 'influxdb';
+const DB_HOST = 'localhost';
 const DB_NAME = 'weather_db';
 
 const influx = new InfluxDB({

@@ -10,6 +10,8 @@ services:
   influxdb:
     image: 'influxdb:1.7.0'
     restart: always
+    expose:
+      - '8086'
     ports:
       - '8086:8086'
     volumes:
